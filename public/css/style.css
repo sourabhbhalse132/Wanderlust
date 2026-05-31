@@ -1,0 +1,120 @@
+ /* === BODY & GLOBAL === */
+ body {
+     font-family: "Poppins", sans-serif;
+     display: flex;
+     flex-direction: column;
+     min-height: 100vh;
+     /* full viewport height */
+     margin: 0;
+     background: linear-gradient(180deg, #e0f0ff 0%, #cfe6ff 100%);
+     color: #1a2b4b;
+ }
+
+ /* Make main grow to push footer */
+ main.flex-grow-1 {
+     display: flex;
+     flex-direction: column;
+ }
+
+ /* === NAVBAR === */
+ .navbar {
+     height: 4.5rem;
+     background: linear-gradient(90deg, #3888ff 0%, #2f6edb 100%);
+     box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
+ }
+
+ .navbar-brand {
+     font-weight: 700;
+     color: #fff !important;
+     font-size: 1.4rem;
+     display: flex;
+     align-items: center;
+     gap: 6px;
+ }
+
+ .navbar-brand:hover {
+     color: #d1e6ff !important;
+ }
+
+ .nav-link {
+     color: #eaf1ff !important;
+     font-weight: 500;
+     margin-left: 18px;
+ }
+
+ .nav-link:hover {
+     color: #d1e6ff !important;
+ }
+
+ /* === FOOTER === */
+ .footer {
+     background: linear-gradient(180deg, #dcecff 0%, #b8d8ff 100%);
+     border-top: 1px solid #b1cfff;
+     padding: 20px 60px;
+     display: flex;
+     flex-wrap: wrap;
+     justify-content: space-between;
+     align-items: center;
+     color: #1a2b4b;
+     flex-shrink: 0;
+     /* prevents footer shrinking */
+ }
+
+ .footer-info a {
+     color: #1a2b4b;
+     text-decoration: none;
+     transition: 0.3s;
+ }
+
+ .footer-info a:hover {
+     color: #3888ff;
+     text-decoration: underline;
+ }
+
+ .footer-socials a {
+     color: #1a2b4b;
+     font-size: 18px;
+     margin-left: 20px;
+     transition: 0.3s;
+ }
+
+ .footer-socials a:hover {
+     color: #3888ff;
+ }
+
+ /* === RESPONSIVE === */
+ @media(max-width:768px) {
+     .footer {
+         flex-direction: column;
+         text-align: center;
+         padding: 20px;
+     }
+
+     .footer-info {
+         justify-content: center;
+         margin-bottom: 10px;
+         font-size: 13px;
+     }
+
+     .footer-socials {
+         margin-top: 10px;
+     }
+
+     .footer-socials a {
+         margin: 0 10px;
+     }
+
+     .navbar {
+         height: auto;
+         padding: 10px 0;
+     }
+
+     .navbar-brand {
+         font-size: 1.3rem;
+     }
+
+     .nav-link {
+         margin: 8px 0;
+         text-align: center;
+     }
+ }

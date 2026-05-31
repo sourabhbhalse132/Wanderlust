@@ -1,0 +1,181 @@
+ <% layout("/layouts/boilerplate") %>
+
+<main class="container my-5">
+  <div class="row justify-content-center gy-4 d-flex align-items-stretch">
+
+    <!-- Listing Card -->
+    <div class="col-12 col-md-10 col-lg-6 d-flex">
+      <div class="card shadow-sm border-0 border-primary-subtle rounded-4 overflow-hidden bg-light flex-fill d-flex flex-column">
+
+        <!-- Image -->
+        <img
+          src="<%= listing.image && listing.image.url ? listing.image.url : 'https://via.placeholder.com/600x400?text=No+Image+Available' %>"
+          alt="<%= listing.title %>" class="card-img-top" style="object-fit: cover; height: 320px;">
+
+        <!-- Card Body -->
+        <div class="card-body p-4 d-flex flex-column">
+          <h2 class="card-title text-primary text-center mb-3">
+            <%= listing.title %>
+          </h2>
+
+          <p class="card-text text-muted text-center mb-4">
+            <b>Owned By:</b> <i><%= listing.owner ? listing.owner.username : "Unknown Owner" %></i>
+          </p>
+
+          <p class="card-text text-muted text-center mb-4">
+            <%= listing.description %>
+          </p>
+
+          <ul class="list-group list-group-flush mb-4">
+            <li class="list-group-item d-flex justify-content-between">
+              <strong>Price:</strong>
+              <span class="text-success fw-bold">&#8377; <%= listing.price.toLocaleString("en-IN") %></span>
+            </li>
+            <li class="list-group-item d-flex justify-content-between">
+              <strong>Location:</strong>
+              <span><%= listing.location %></span>
+            </li>
+            <li class="list-group-item d-flex justify-content-between">
+              <strong>Country:</strong>
+              <span><%= listing.country %></span>
+            </li>
+          </ul>
+
+          <!-- Buttons -->
+          <div class="d-flex flex-column flex-md-row justify-content-between mt-auto gap-2">
+            <a href="/listings/<%= listing._id %>/edit" class="btn text-white w-100 w-md-auto"
+              style="background-color: #89cd31;">
+              <i class="fa-solid fa-pen-to-square me-2"></i>Edit Listing
+            </a>
+
+            <form method="POST" action="/listings/<%= listing._id %>?_method=DELETE"
+              onsubmit="return confirm('Are you sure you want to delete this listing?');" class="w-100 w-md-auto">
+              <button class="btn btn-danger w-100 w-md-auto">
+                <i class="fa-solid fa-trash me-2"></i>Delete
+              </button>
+            </form>
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+    <!-- Review Form Card -->
+    <div class="col-12 col-md-10 col-lg-6 d-flex">
+      <div class="card border-0 shadow-sm rounded-4 bg-light flex-fill d-flex flex-column">
+
+        <!-- Card Header -->
+        <div class="card-header bg-primary text-white text-center fw-bold py-3 fs-5">
+          Leave a Review
+        </div>
+
+        <!-- Card Body -->
+        <div class="card-body p-4 d-flex flex-column">
+
+          <!-- Review Form -->
+          <form id="reviewForm" method="POST" action="/listings/<%= listing._id %>/reviews" novalidate
+            class="needs-validation mb-3">
+
+            <div class="mb-3">
+              <label class="form-label fw-semibold text-secondary">Rating</label>
+
+              <div class="dropdown w-100">
+                <button class="btn btn-light w-100 border shadow-sm text-start dropdown-toggle" type="button"
+                  id="ratingDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+                  ⭐ Select rating
+                </button>
+                <ul class="dropdown-menu w-100 shadow-sm" aria-labelledby="ratingDropdown">
+                  <% for(let i = 1; i <= 5; i++) { %>
+                    <li>
+                      <button class="dropdown-item" type="button" data-value="<%= i %>">
+                        <%= i %> <%= "⭐".repeat(i) %>
+                      </button>
+                    </li>
+                  <% } %>
+                </ul>
+              </div>
+
+              <input type="hidden" name="review[rating]" id="selectRating" required>
+              <div class="invalid-feedback mt-2">Please select a rating.</div>
+            </div>
+
+            <div class="mb-3">
+              <label for="comment" class="form-label fw-semibold text-secondary">Comment</label>
+              <textarea id="comment" name="review[comment]" rows="3"
+                class="form-control border-primary-subtle shadow-sm" placeholder="Write your review..." required></textarea>
+              <div class="invalid-feedback">Please write a comment before submitting.</div>
+            </div>
+
+            <div class="d-grid">
+              <button type="submit" class="btn btn-success fw-semibold py-2 shadow-sm">
+                <i class="fa-solid fa-paper-plane me-2"></i> Submit Review
+              </button>
+            </div>
+          </form>
+
+          <hr>
+
+          <!-- Reviews List -->
+          <h4 class="mb-3 fw-bold">All Reviews</h4>
+          <div class="list-group overflow-auto flex-grow-1">
+            <% if(listing.reviews.length === 0) { %>
+              <p class="text-muted">No reviews yet. Be the first to leave a review!</p>
+            <% } else { %>
+              <% for (let review of listing.reviews) { %>
+                <div class="list-group-item list-group-item-action mb-2 shadow-sm rounded-3 border d-flex align-items-start justify-content-between">
+
+                  <div class="d-flex flex-grow-1">
+                    <div class="me-3">
+                      <div class="rounded-circle bg-primary text-white d-flex align-items-center justify-content-center"
+                        style="width: 40px; height: 40px; font-size: 1rem;">
+                        <i class="fa-solid fa-user"></i>
+                      </div>
+                    </div>
+
+                    <div class="flex-grow-1">
+                      <!-- Author + Date -->
+                      <div class="d-flex justify-content-between mb-1">
+                        <small class="text-muted">
+                          <b><%= review.author ? review.author.username : "Unknown User" %></b>
+                          •
+                          <%= new Date(review.createdAt).toLocaleDateString() %>
+                        </small>
+                      </div>
+
+                      <!-- Stars -->
+                      <div class="mb-1">
+                        <% for(let i=1; i <= 5; i++) { %>
+                          <% if(i <= review.rating) { %>
+                            <i class="fa-solid fa-star text-warning"></i>
+                          <% } else { %>
+                            <i class="fa-regular fa-star text-muted"></i>
+                          <% } %>
+                        <% } %>
+                      </div>
+
+                      <!-- Comment -->
+                      <p class="mb-0 text-secondary" style="font-size: 0.95rem;">
+                        <%= review.comment %>
+                      </p>
+                    </div>
+                  </div>
+
+                  <!-- Delete Review Button -->
+                  <form class="ms-3" method="POST"
+                    action="/listings/<%= listing._id %>/reviews/<%= review._id %>?_method=DELETE">
+                    <button class="btn btn-sm btn-danger">
+                      <i class="fa-solid fa-trash"></i>
+                    </button>
+                  </form>
+
+                </div>
+              <% } %>
+            <% } %>
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+  </div>
+</main>

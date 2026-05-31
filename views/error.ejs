@@ -1,0 +1,32 @@
+ <% layout("/layouts/boilerplate") %>
+
+<div class="container my-5">
+  <div class="row justify-content-center">
+    <div class="col-10 col-sm-8 col-md-6">
+      <div class="alert alert-danger shadow-lg border-0 rounded-4 p-4 text-center animate__animated animate__fadeIn">
+        <div class="d-flex flex-column align-items-center">
+
+          <!-- 🔴 Error Icon -->
+          <div class="bg-white text-danger rounded-circle d-flex justify-content-center align-items-center mb-3" 
+               style="width: 60px; height: 60px;">
+            <i class="bi bi-exclamation-triangle-fill fs-3"></i>
+          </div>
+
+          <!-- 🔴 Error Message -->
+          <h4 class="fw-bold mb-2">Oops! Something went wrong</h4>
+          <p class="mb-3 fs-5"><%= message %></p>
+
+          <!-- 🔵 Return Home Button (UPDATED HERE) -->
+          <a href="/listings" 
+             class="btn btn-primary text-white fw-semibold px-4 py-2 rounded-pill shadow-sm mt-2">
+            <i class="bi bi-house-door-fill me-2"></i> Return Home
+          </a>
+          <!-- 🔵 ↑↑ this is the important button and its link path -->
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Optional Animation Library -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>

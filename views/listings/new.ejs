@@ -1,0 +1,210 @@
+<% layout("/layouts/boilerplate") %>
+
+<main class="fullpage-form py-4 py-md-5">
+  <div class="container">
+    <div class="card shadow-sm border-2 rounded-4">
+      
+      <div class="card-header bg-primary text-white text-center">
+        <h2 class="mb-0">Create A New Listing</h2>
+      </div>
+
+      <div class="card-body">
+
+        <!-- Flash Messages -->
+        <% if(success && success.length > 0) { %>
+          <div class="alert alert-success alert-dismissible fade show" role="alert">
+            <%= success %>
+            <button
+              type="button"
+              class="btn-close"
+              data-bs-dismiss="alert"
+            ></button>
+          </div>
+        <% } %>
+
+        <% if(error && error.length > 0) { %>
+          <div class="alert alert-danger alert-dismissible fade show" role="alert">
+            <%= error %>
+            <button
+              type="button"
+              class="btn-close"
+              data-bs-dismiss="alert"
+            ></button>
+          </div>
+        <% } %>
+
+        <!-- FORM -->
+        <form
+          class="needs-validation"
+          method="POST"
+          action="/listings"
+          enctype="multipart/form-data"
+          novalidate
+        >
+
+          <!-- TITLE -->
+          <div class="mb-3">
+            <label for="title" class="form-label fw-semibold">
+              Title
+            </label>
+
+            <input
+              type="text"
+              class="form-control"
+              id="title"
+              name="listing[title]"
+              placeholder="Add catchy title"
+              required
+            />
+
+            <div class="invalid-feedback">
+              Please enter a title.
+            </div>
+          </div>
+
+          <!-- DESCRIPTION -->
+          <div class="mb-3">
+            <label for="description" class="form-label fw-semibold">
+              Description
+            </label>
+
+            <textarea
+              class="form-control"
+              id="description"
+              name="listing[description]"
+              rows="3"
+              placeholder="Enter short description"
+              required
+            ></textarea>
+
+            <div class="invalid-feedback">
+              Please enter description.
+            </div>
+          </div>
+
+          <!-- PRICE + IMAGE -->
+          <div class="row">
+
+            <!-- PRICE -->
+            <div class="col-md-6 mb-3">
+              <label for="price" class="form-label fw-semibold">
+                Price (₹)
+              </label>
+
+              <input
+                type="number"
+                class="form-control"
+                id="price"
+                name="listing[price]"
+                placeholder="1200"
+                min="1"
+                required
+              />
+
+              <div class="invalid-feedback">
+                Please enter valid price.
+              </div>
+            </div>
+
+            <!-- IMAGE -->
+            <div class="col-md-6 mb-3">
+              <label for="image" class="form-label fw-semibold">
+                Upload Image
+              </label>
+
+              <input
+                type="file"
+                class="form-control"
+                id="image"
+                name="listing[image]"
+                accept="image/*"
+              />
+
+              <div class="invalid-feedback">
+                Please upload image.
+              </div>
+            </div>
+          </div>
+
+          <!-- COUNTRY + LOCATION -->
+          <div class="row">
+
+            <!-- COUNTRY -->
+            <div class="col-md-6 mb-3">
+              <label for="country" class="form-label fw-semibold">
+                Country
+              </label>
+
+              <input
+                type="text"
+                class="form-control"
+                id="country"
+                name="listing[country]"
+                placeholder="India"
+                required
+              />
+
+              <div class="invalid-feedback">
+                Please enter country.
+              </div>
+            </div>
+
+            <!-- LOCATION -->
+            <div class="col-md-6 mb-3">
+              <label for="location" class="form-label fw-semibold">
+                Location
+              </label>
+
+              <input
+                type="text"
+                class="form-control"
+                id="location"
+                name="listing[location]"
+                placeholder="Indore, Madhya Pradesh"
+                required
+              />
+
+              <div class="invalid-feedback">
+                Please enter location.
+              </div>
+            </div>
+          </div>
+
+          <!-- BUTTON -->
+          <div class="d-grid mt-4">
+            <button type="submit" class="btn btn-success btn-lg">
+              <i class="fa-solid fa-plus me-2"></i>
+              Add Listing
+            </button>
+          </div>
+
+        </form>
+
+      </div>
+    </div>
+  </div>
+</main>
+
+<!-- Bootstrap Validation -->
+<script>
+(() => {
+  'use strict';
+
+  const forms = document.querySelectorAll('.needs-validation');
+
+  Array.from(forms).forEach((form) => {
+    form.addEventListener(
+      'submit',
+      (event) => {
+        if (!form.checkValidity()) {
+          event.preventDefault();
+          event.stopPropagation();
+        }
+
+        form.classList.add('was-validated');
+      },
+      false
+    );
+  });
+})();
+</script>
